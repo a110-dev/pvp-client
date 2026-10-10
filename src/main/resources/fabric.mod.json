@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "aleksa04_1",
+  "version": "${version}",
+  "name": "PvPClient",
+  "description": "A customizable PvP client with nested performance mods for Minecraft 26.3.",
+  "authors": ["aleksa04_1"],
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "client": ["dev.pvpclient.PvpClient"],
+    "modmenu": ["dev.pvpclient.ModMenuIntegration"]
+  },
+  "mixins": [
+    "aleksa04_1.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.19.5",
+    "minecraft": "~26.3",
+    "java": ">=25",
+    "fabric-api": "*"
+  },
+  "suggests": {
+    "modmenu": "*",
+    "sodium": "*",
+    "entityculling": "*"
+  }
+}

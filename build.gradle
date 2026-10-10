@@ -1,0 +1,61 @@
+plugins {
+    // Since 26.1 the Loom plugin id is net.fabricmc.fabric-loom
+    id 'net.fabricmc.fabric-loom' version "${loom_version}"
+    id 'maven-publish'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+    archivesName = project.archives_base_name
+}
+
+repositories {
+    maven {
+        name = 'Modrinth'
+        url = 'https://api.modrinth.com/maven'
+    }
+    maven {
+        name = 'TerraformersMC'
+        url = 'https://maven.terraformersmc.com/releases/'
+    }
+}
+
+dependencies {
+    // Mod Menu API, compile-only: the "Configure" button is optional at runtime.
+    compileOnly "com.terraformersmc:modmenu:21.0.0"
+
+    // Ship these standalone Fabric performance mods as nested jars. Keep each
+    // upstream artifact intact and retain its own license and source notices.
+    implementation "maven.modrinth:gvQqBUqZ:WXHRsMRl" // Lithium 0.26.1, MC 26.3
+    include "maven.modrinth:gvQqBUqZ:WXHRsMRl"
+    implementation "maven.modrinth:5ZwdcRci:3MP9UR23" // ImmediatelyFast 1.17.1, MC 26.3
+    include "maven.modrinth:5ZwdcRci:3MP9UR23"
+    implementation "maven.modrinth:uXXizFIs:d5ddUdiB" // FerriteCore 9.0.0, MC 26.3
+    include "maven.modrinth:uXXizFIs:d5ddUdiB"
+
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+
+    // Unobfuscated: plain implementation, no modImplementation, no mappings line.
+    implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+}
+
+processResources {
+    inputs.property "version", project.version
+
+    filesMatching("fabric.mod.json") {
+        expand "version": inputs.properties.version
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 25
+}
+
+java {
+    withSourcesJar()
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
+}
