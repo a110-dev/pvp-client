@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "dev.pvpclient.mixin",
+  "client": [
+    "MouseHandlerMixin",
+    "VitalHudMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
